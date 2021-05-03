@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:rss_app_flutter/models/parser.dart'; // importation relative
 import 'package:webfeed/webfeed.dart';
+import 'package:rss_app_flutter/widgets/body.dart';
+import 'package:rss_app_flutter/widgets/list.dart';
+
 // ------
 class Home extends StatefulWidget {
   Home({Key key, this.title}) : super(key: key);
@@ -41,6 +44,7 @@ class _HomeState extends State<Home> {
         ),
         centerTitle: true,
       ),
+      body: choixDuBody(),
     );
   }
 
@@ -57,14 +61,41 @@ class _HomeState extends State<Home> {
         print(feed.items.length);
 
         data.forEach((element) {
+          /*
           print("element");
           print("titre : "+element.title);
           print("description : "+element.description.toString());
           print("lien "+element.link);
+          */
         });
       });
     }
   }
 
+  // fonction Widget
+  // ignore: missing_return
+  Widget choixDuBody() {
+    if (feed == null) {
+      return new Chargement();
+    } else {
+      Orientation orientation = MediaQuery.of(context).orientation;
+      if (orientation == Orientation.portrait) {
+      } else {
+        return new Liste(data);
+      }
+    }
+  }
 
+  Widget texte() {
+    return new Center(
+      child: new Text(
+        "Chargement finit",
+        style: TextStyle(
+          fontSize: 25.0,
+          color: Colors.blueGrey,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+  }
 }
